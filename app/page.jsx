@@ -1,29 +1,17 @@
-"use client";
-import { fetchRecipe } from "@/redux/features/recipeSlice";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import HomePage from "@/components/Pages/HomePage";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { recipe, status, error } = useSelector((state) => state.recipe);
+  //loading sayfasi ve error sayfasina koymak
+  // ana sayfada gostermek ve navbar footer vs
 
-  useEffect(() => {
-    dispatch(fetchRecipe());
-  }, [dispatch]);
 
-  // if (status === 'loading') {
-  //   return <div>Loading...</div>;
-  // }
 
-  // if (status === 'failed') {
-  //   return <div>Error: {error}</div>;
-  // }
-
-  console.log('data :>> ', recipe);
+ console.log('is client?')
 
   return (
     <main>
-      Hello world
+      <HomePage/>
     </main>
   );
 };
