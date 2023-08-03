@@ -2,7 +2,7 @@ import React from "react";
 
 const MealCard = ({ item }) => {
   return (
-<div className="border-4 w-full md:w-1/2 lg:w-1/3 p-8">
+<div className="w-full h-full  ">
 
       <div className="h-full flex flex-col justify-between  p-9 bg-gradient-mainTheme  rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300">
         <img

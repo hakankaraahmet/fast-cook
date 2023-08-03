@@ -1,19 +1,15 @@
-import LoadingSkeleton from "@/components/LoadingSkeleton";
-import HomePage from "@/containers/HomePage";
+import HomePage from "../containers/HomePage";
 
 const Home = () => {
   //loading sayfasi ve error sayfasina koymak
   // ana sayfada gostermek ve navbar footer vs
 
-
-
- console.log('is client?')
+  console.log("is client?");
 
   return (
     <main>
-    {/*  <HomePage/> */}
-    
-   </main>
+      <HomePage />
+    </main>
   );
 };
 

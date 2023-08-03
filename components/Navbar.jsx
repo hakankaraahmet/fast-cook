@@ -26,12 +26,12 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center">
-          <img src="/logo.svg" className="h-8 mr-3 mb-2" alt="Flowbite Logo" />
+        <Link href="/" className="flex items-center">
+          <img src="/logo.svg" className="h-8 mr-3 mb-2" alt="Fast Cook" />
           <span className="self-center text-2xl font-normal whitespace-nowrap dark:text-white">
             Fast Cook
           </span>
-        </a>
+        </Link>
         <div className="flex md:order-2">
           <div className="relative hidden md:block">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
