@@ -2,8 +2,9 @@ import React from "react";
 
 const MealCard = ({ item }) => {
   return (
+<div className="border-4 w-full md:w-1/2 lg:w-1/3 p-8">
 
-      <div className="flex flex-col justify-between mx-auto p-9 bg-gradient-mainTheme max-w-sm rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300">
+      <div className="h-full flex flex-col justify-between  p-9 bg-gradient-mainTheme  rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300">
         <img
           className="rounded-xl"
           src={item?.image}
@@ -20,7 +21,7 @@ const MealCard = ({ item }) => {
           </div>
         </div>
       </div>
-
+      </div>
   );
 };
 

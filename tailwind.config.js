@@ -15,7 +15,7 @@ module.exports = {
       colors: {
         mainText: '#fff',
         mainButton: '#f9fafb',
-        mainButtonText : '#701a75'
+        mainButtonText : '#111827'
       },
     },
   },

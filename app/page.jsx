@@ -1,5 +1,5 @@
 import LoadingSkeleton from "@/components/LoadingSkeleton";
-import HomePage from "@/components/Pages/HomePage";
+import HomePage from "@/containers/HomePage";
 
 const Home = () => {
   //loading sayfasi ve error sayfasina koymak
@@ -11,8 +11,9 @@ const Home = () => {
 
   return (
     <main>
-      <HomePage/>
-    </main>
+    {/*  <HomePage/> */}
+    
+   </main>
   );
 };
 
