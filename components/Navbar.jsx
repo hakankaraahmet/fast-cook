@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
+import { outSideClick } from "../shared/outSideClick";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -8,19 +9,7 @@ const Navbar = () => {
   const sideBarRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        sideBarRef.current &&
-        !sideBarRef.current.contains(event.target) &&
-        !event.target.closest(".inline-flex")
-      ) {
-        setIsSideBar(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    outSideClick(sideBarRef, setIsSideBar);
   }, [sideBarRef]);
 
   return (
