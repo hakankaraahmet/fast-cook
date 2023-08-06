@@ -7,6 +7,7 @@ const initialState = {
   recipe: [],
   status: "idle",
   error: null,
+  isRecipeSelected: false,
 };
 
 export const fetchRecipe = createAsyncThunk(
@@ -25,7 +26,9 @@ export const fetchRecipe = createAsyncThunk(
           params: params,
         }
       );
-      return response.data;
+      return cuisineValue
+        ? { cuisineValue, data: response.data }
+        : response.data;
     } catch (error) {
       throw new Error("Failed to fetch recipes from the API.");
     }
@@ -35,7 +38,14 @@ export const fetchRecipe = createAsyncThunk(
 const recipeSlice = createSlice({
   name: "recipe",
   initialState,
-  reducers: {},
+  reducers: {
+    setIsRecipeSelected: (state, action) => {
+      if (!state.isRecipeSelected) {
+        state.recipe = [];
+      }
+      state.isRecipeSelected = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRecipe.pending, (state) => {
@@ -43,7 +53,7 @@ const recipeSlice = createSlice({
       })
       .addCase(fetchRecipe.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.recipe = action.payload;
+        state.recipe = state.recipe.concat(action.payload);
       })
       .addCase(fetchRecipe.rejected, (state, action) => {
         state.status = "failed";
@@ -52,4 +62,5 @@ const recipeSlice = createSlice({
   },
 });
 
+export const { setIsRecipeSelected } = recipeSlice.actions;
 export default recipeSlice.reducer;

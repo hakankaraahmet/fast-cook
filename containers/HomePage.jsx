@@ -7,41 +7,22 @@ import CommonModal from "../components/CommonModal";
 import CuisineTypes from "../components/CuisineTypes";
 const HomePage = () => {
   const [showModal, setShowModal] = React.useState(false);
-  // const dispatch = useDispatch();
-  // const { recipe, status, error } = useSelector((state) => state.recipe);
+  const dispatch = useDispatch();
+  const { recipe, status, error, isRecipeSelected } = useSelector(
+    (state) => state.recipe
+  );
 
-  // useEffect(() => {
-  //   dispatch(fetchRecipe());
-  // }, [dispatch]);
-
-  const recipe = [
-    {
-      id: 0,
-      title: "asd",
-      image: "dfgdfg",
-    },
-    {
-      id: 1,
-      title: "asd",
-      image: "dfgdfg",
-    },
-    {
-      id: 2,
-      title: "asd",
-      image: "dfgdfg",
-    },
-    {
-      id: 3,
-      title: "asd",
-      image: "dfgdfg",
-    },
-  ];
+  useEffect(() => {
+    if (!isRecipeSelected) {
+      dispatch(fetchRecipe());
+    }
+  }, []);
 
   const handleCuisines = () => {
     setShowModal(true);
-    // dispatch(fetchRecipe('German'))
   };
-  // console.log('recipe :>> ', recipe);
+  
+
   return (
     <div>
       <div className="  py-8">
@@ -52,10 +33,16 @@ const HomePage = () => {
           Choose cusine
         </span>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16 mx-8">
-        {recipe?.map((item) => (
-          <MealCard item={item} key={item.id} />
-        ))}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16 mx-8 mb-8">
+        {isRecipeSelected
+          ? recipe?.flatMap((item) =>
+              item.data.results.map((result) => (
+                <MealCard item={result} key={result.id} />
+              ))
+            )
+          : recipe[0]?.results.map((item) => (
+              <MealCard item={item} key={item.id} />
+            ))}
       </div>
       <CommonModal
         showModal={showModal}
