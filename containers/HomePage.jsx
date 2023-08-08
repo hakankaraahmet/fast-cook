@@ -1,5 +1,8 @@
 "use client";
-import { fetchRecipe, setIsRecipeSelected, } from "../redux/features/recipeSlice";
+import {
+  fetchRecipe,
+  setIsRecipeSelected,
+} from "../redux/features/recipeSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MealCard from "../components/MealCard";
@@ -10,24 +13,25 @@ const HomePage = () => {
   const [cuisineList, setCuisineList] = useState(cuisines);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const { recipe, status, error, isRecipeSelected } = useSelector(
-    (state) => state.recipe
-  );
+  const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
 
-  // useEffect(() => {
-  //   if (!isRecipeSelected) {
-  //     dispatch(fetchRecipe());
-  //   }
-  // }, []);
+  // DEFAULT FETCH ALL MEALS
+
+  useEffect(() => {
+    if (!isRecipeSelected) {
+      dispatch(fetchRecipe());
+    }
+  }, [isRecipeSelected]);
+
+  console.log("isRecipeSelected :>> ", isRecipeSelected);
 
   const handleCuisines = () => {
     setShowModal(true);
   };
 
-  // Selecting cuisine types
+  // SELECTING CUISINE TYPES
 
   const selectRecipe = (cuisineType) => {
-    dispatch(setIsRecipeSelected(true));
     const updatedCuisines = cuisineList.map((item) => {
       if (item.id === cuisineType.id)
         return {
@@ -39,20 +43,25 @@ const HomePage = () => {
     setCuisineList(updatedCuisines);
   };
 
+  // CLOSING MODAL AND FETCHING SELECTED CUISINES
 
   const showRecipeResult = () => {
-    setShowModal(false)
-    cuisineList.map(item => 
-      {
-        if (item.isSelected){
-          console.log('item.value :>> ', item.value);
-        }
+    setShowModal(false);
+    const finalRecipe = cuisineList.filter(
+      (recipe) => recipe.isSelected === true
+    );
+    console.log("finalRecipe :>> ", finalRecipe);
 
-      }
-      )
-  }
+    finalRecipe?.forEach((obj) => {
+      dispatch(fetchRecipe(obj.value));
+    });
 
-console.log('cuisineList :>> ', cuisineList);
+    if (finalRecipe.length === 0) {
+      dispatch(setIsRecipeSelected(false));
+    } else {
+      dispatch(setIsRecipeSelected(true));
+    }
+  };
 
   return (
     <div>
@@ -67,11 +76,11 @@ console.log('cuisineList :>> ', cuisineList);
       <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16 mx-8 mb-8">
         {isRecipeSelected
           ? recipe?.flatMap((item) =>
-              item.data.results.map((result) => (
+              item.data.results?.map((result) => (
                 <MealCard item={result} key={result.id} />
               ))
             )
-          : recipe[0]?.results.map((item) => (
+          : recipe[0]?.results?.map((item) => (
               <MealCard item={item} key={item.id} />
             ))}
       </div>
@@ -80,9 +89,9 @@ console.log('cuisineList :>> ', cuisineList);
         setShowModal={setShowModal}
         title={"Best cuisines for you..."}
         buttonName={"See Cuisines"}
-        onClick = {showRecipeResult}
+        onClick={showRecipeResult}
       >
-        <CuisineTypes selectRecipe = {selectRecipe} cuisineList = {cuisineList} />
+        <CuisineTypes selectRecipe={selectRecipe} cuisineList={cuisineList} />
       </CommonModal>
     </div>
   );
