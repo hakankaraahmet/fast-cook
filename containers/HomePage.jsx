@@ -1,33 +1,64 @@
 "use client";
-import { fetchRecipe } from "../redux/features/recipeSlice";
-import React, { useEffect } from "react";
+import { fetchRecipe, setIsRecipeSelected, } from "../redux/features/recipeSlice";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MealCard from "../components/MealCard";
 import CommonModal from "../components/CommonModal";
 import CuisineTypes from "../components/CuisineTypes";
+import { cuisines } from "../constants/cuisines";
 const HomePage = () => {
-  const [showModal, setShowModal] = React.useState(false);
+  const [cuisineList, setCuisineList] = useState(cuisines);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const { recipe, status, error, isRecipeSelected } = useSelector(
     (state) => state.recipe
   );
 
-  useEffect(() => {
-    if (!isRecipeSelected) {
-      dispatch(fetchRecipe());
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!isRecipeSelected) {
+  //     dispatch(fetchRecipe());
+  //   }
+  // }, []);
 
   const handleCuisines = () => {
     setShowModal(true);
   };
-  
+
+  // Selecting cuisine types
+
+  const selectRecipe = (cuisineType) => {
+    dispatch(setIsRecipeSelected(true));
+    const updatedCuisines = cuisineList.map((item) => {
+      if (item.id === cuisineType.id)
+        return {
+          ...item,
+          isSelected: !item.isSelected,
+        };
+      return item;
+    });
+    setCuisineList(updatedCuisines);
+  };
+
+
+  const showRecipeResult = () => {
+    setShowModal(false)
+    cuisineList.map(item => 
+      {
+        if (item.isSelected){
+          console.log('item.value :>> ', item.value);
+        }
+
+      }
+      )
+  }
+
+console.log('cuisineList :>> ', cuisineList);
 
   return (
     <div>
       <div className="  py-8">
         <span
-          className="text-white mx-8   py-2 px-8 bg-mainButtonText rounded-lg my-8"
+          className="text-white mx-8 cursor-pointer  py-2 px-8 bg-mainButtonText rounded-lg my-8"
           onClick={handleCuisines}
         >
           Choose cusine
@@ -49,8 +80,9 @@ const HomePage = () => {
         setShowModal={setShowModal}
         title={"Best cuisines for you..."}
         buttonName={"See Cuisines"}
+        onClick = {showRecipeResult}
       >
-        <CuisineTypes />
+        <CuisineTypes selectRecipe = {selectRecipe} cuisineList = {cuisineList} />
       </CommonModal>
     </div>
   );
