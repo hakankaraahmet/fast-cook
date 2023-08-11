@@ -10,7 +10,7 @@ const CommonModal = ({ showModal, setShowModal, title, buttonName,onClick, child
   }, [modalRef]);
 
   return (
-    <div className="text-mainButtonText  " >
+    <div className="text-mainButtonText" >
       {showModal && (
         <div  className="fixed inset-0 z-50 max-w-[90%]  m-auto flex items-center justify-center overflow-x-hidden overflow-y-auto ">
           <div className="relative w-full max-w-3xl mx-auto">
@@ -24,7 +24,7 @@ const CommonModal = ({ showModal, setShowModal, title, buttonName,onClick, child
                   ×
                 </button>
               </div>
-              <div className="mx-5 overflow-y-auto max-h-[50vh]">
+              <div className="mx-5 overflow-y-auto max-h-[45vh]">
                 {children}
               </div>
               <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
