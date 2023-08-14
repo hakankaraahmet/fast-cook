@@ -18,6 +18,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
 
+  // LOCAL STORAGE
   const storedFilters = global?.window?.sessionStorage?.getItem(
     "sessionStorageRecipes"
   );
@@ -29,22 +30,18 @@ const HomePage = () => {
  
     if(storedFilters?.length > 0 && storedFilters ){
      dispatch(setIsRecipeSelected(true))
-    //  JSON.parse(storedFilters)?.map((item) => dispatch(fetchRecipe(item)));
+      JSON.parse(storedFilters)?.map((item) => dispatch(fetchRecipe(item)));
      const filteredArray = cuisineList.filter(item=> storedFilters.includes(item.value));
      filteredArray.map(item => item.isSelected ? item.isSelected = false : item.isSelected = true)
     }
     else{
-    //  dispatch(fetchRecipe())
+      dispatch(fetchRecipe())
       dispatch(setIsRecipeSelected(false))
  
     }
 
     console.log('isRecipeSelected :>> ', isRecipeSelected);
   }, []);
-
-
-
-
 
 
   const handleCuisines = () => {
