@@ -18,13 +18,32 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
 
+  const storedFilters = global?.window?.sessionStorage?.getItem(
+    "sessionStorageRecipes"
+  );
+  const storedCuisines = global?.window?.sessionStorage?.getItem(
+    'sessionStorageCuisines'
+  )
+
+ 
+
   // DEFAULT FETCH ALL MEALS
 
-  // useEffect(() => {
-  //   if (!isRecipeSelected) {
-  //     dispatch(fetchRecipe());
-  //   }
-  // }, [isRecipeSelected]);
+  useEffect(() => {
+ 
+    if(storedFilters?.length > 0 && storedFilters){
+      dispatch(setIsRecipeSelected(true));
+    //  JSON.parse(storedFilters)?.map((item) => dispatch(fetchRecipe(item)));
+    }
+    else{
+    //  dispatch(fetchRecipe())
+    }
+
+    console.log('storedCuisines :>> ', storedCuisines);
+    console.log('storedFilters :>> ', storedFilters);
+  }, []);
+
+  console.log('cuisineList :>> ', cuisineList);
 
   const handleCuisines = () => {
     setShowModal(true);
@@ -34,11 +53,17 @@ const HomePage = () => {
 
   const selectRecipe = (cuisineType) => {
     const updatedCuisines = cuisineList.map((item) => {
-      if (item.id === cuisineType.id)
+      if (item.id === cuisineType.id){
+        sessionStorage.setItem(
+          "sessionStorageCuisines",
+          JSON.stringify(item.value)
+        );
         return {
           ...item,
           isSelected: !item.isSelected,
         };
+      }
+  
       return item;
     });
     setCuisineList(updatedCuisines);
@@ -48,6 +73,8 @@ const HomePage = () => {
 
   const showRecipeResult = () => {
     setShowModal(false);
+    let sessionStorageCuisines = [];
+
     const finalRecipe = cuisineList.filter(
       (recipe) => recipe.isSelected === true
     );
@@ -55,8 +82,14 @@ const HomePage = () => {
     dispatch(setIsRecipeSelected(false));
 
     finalRecipe?.forEach((obj) => {
-      dispatch(fetchRecipe(obj.value));
+      sessionStorageCuisines.push(obj.value);
+      console.log("obj :>> ", obj.value);
+     // dispatch(fetchRecipe(obj.value));
     });
+    sessionStorage.setItem(
+      "sessionStorageRecipes",
+      JSON.stringify(sessionStorageCuisines)
+    );
 
     if (finalRecipe.length === 0) {
       dispatch(setIsRecipeSelected(false));
@@ -96,11 +129,11 @@ const HomePage = () => {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3  items-center">
-        <div >
+      <div className="grid lg:grid-cols-3 items-center">
+        <div className="flex justify-center lg:justify-start">
           <CommonButton onClick={handleCuisines} title={"choose cuisine"} />
         </div>
-        <h2 className="capitalize font-bold text-4xl text-mainButtonText text-center my-8 lg:my-16">
+        <h2 className="capitalize font-bold text-2xl lg:text-4xl text-mainButtonText text-center my-8 lg:my-16">
           Our choices for you
         </h2>
         <Search />
@@ -108,7 +141,7 @@ const HomePage = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16  mb-8">
         {isRecipeSelected
           ? recipe?.flatMap((item) =>
-              item.data.results?.map((result) => (
+              item.data?.results?.map((result) => (
                 <MealCard item={result} key={result.id} />
               ))
             )
@@ -116,7 +149,7 @@ const HomePage = () => {
               <MealCard item={item} key={item.id} />
             ))}
       </div>
-      <div className=" mt-2 lg:my-4  flex justify-center">
+      <div className=" my-2 lg:my-4  flex justify-center">
         <CommonButton onClick={showMoreClick} title={"show more"} />
       </div>
       <CommonModal
