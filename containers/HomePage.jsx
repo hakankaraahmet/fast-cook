@@ -21,29 +21,31 @@ const HomePage = () => {
   const storedFilters = global?.window?.sessionStorage?.getItem(
     "sessionStorageRecipes"
   );
-  const storedCuisines = global?.window?.sessionStorage?.getItem(
-    'sessionStorageCuisines'
-  )
 
- 
 
   // DEFAULT FETCH ALL MEALS
 
   useEffect(() => {
  
-    if(storedFilters?.length > 0 && storedFilters){
-      dispatch(setIsRecipeSelected(true));
+    if(storedFilters?.length > 0 && storedFilters ){
+     dispatch(setIsRecipeSelected(true))
     //  JSON.parse(storedFilters)?.map((item) => dispatch(fetchRecipe(item)));
+     const filteredArray = cuisineList.filter(item=> storedFilters.includes(item.value));
+     filteredArray.map(item => item.isSelected ? item.isSelected = false : item.isSelected = true)
     }
     else{
     //  dispatch(fetchRecipe())
+      dispatch(setIsRecipeSelected(false))
+ 
     }
 
-    console.log('storedCuisines :>> ', storedCuisines);
-    console.log('storedFilters :>> ', storedFilters);
+    console.log('isRecipeSelected :>> ', isRecipeSelected);
   }, []);
 
-  console.log('cuisineList :>> ', cuisineList);
+
+
+
+
 
   const handleCuisines = () => {
     setShowModal(true);
@@ -54,10 +56,6 @@ const HomePage = () => {
   const selectRecipe = (cuisineType) => {
     const updatedCuisines = cuisineList.map((item) => {
       if (item.id === cuisineType.id){
-        sessionStorage.setItem(
-          "sessionStorageCuisines",
-          JSON.stringify(item.value)
-        );
         return {
           ...item,
           isSelected: !item.isSelected,
@@ -83,8 +81,7 @@ const HomePage = () => {
 
     finalRecipe?.forEach((obj) => {
       sessionStorageCuisines.push(obj.value);
-      console.log("obj :>> ", obj.value);
-     // dispatch(fetchRecipe(obj.value));
+    //  dispatch(fetchRecipe(obj.value));
     });
     sessionStorage.setItem(
       "sessionStorageRecipes",
