@@ -18,31 +18,29 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
 
-  // LOCAL STORAGE
-  const storedFilters = global?.window?.sessionStorage?.getItem(
-    "sessionStorageRecipes"
-  );
-
-
   // DEFAULT FETCH ALL MEALS
 
   useEffect(() => {
- 
-    if(storedFilters?.length > 0 && storedFilters ){
-     dispatch(setIsRecipeSelected(true))
-      JSON.parse(storedFilters)?.map((item) => dispatch(fetchRecipe(item)));
-     const filteredArray = cuisineList.filter(item=> storedFilters.includes(item.value));
-     filteredArray.map(item => item.isSelected ? item.isSelected = false : item.isSelected = true)
-    }
-    else{
-      dispatch(fetchRecipe())
-      dispatch(setIsRecipeSelected(false))
- 
+    const storedFilters = JSON.parse(
+      global?.window?.sessionStorage?.getItem("sessionStorageRecipes")
+    );
+
+    if (storedFilters?.length > 0 && storedFilters) {
+      dispatch(setIsRecipeSelected(true));
+      storedFilters?.map((item) => dispatch(fetchRecipe(item)));
+      const filteredArray = cuisineList.filter((item) =>
+        storedFilters.includes(item.value)
+      );
+      filteredArray.map((item) =>
+        item.isSelected ? (item.isSelected = false) : (item.isSelected = true)
+      );
+    } else {
+      dispatch(setIsRecipeSelected(false));
+      dispatch(fetchRecipe());
     }
 
-    console.log('isRecipeSelected :>> ', isRecipeSelected);
+    console.log("isRecipeSelected :>> ", isRecipeSelected);
   }, []);
-
 
   const handleCuisines = () => {
     setShowModal(true);
@@ -52,13 +50,13 @@ const HomePage = () => {
 
   const selectRecipe = (cuisineType) => {
     const updatedCuisines = cuisineList.map((item) => {
-      if (item.id === cuisineType.id){
+      if (item.id === cuisineType.id) {
         return {
           ...item,
           isSelected: !item.isSelected,
         };
       }
-  
+
       return item;
     });
     setCuisineList(updatedCuisines);
@@ -78,7 +76,7 @@ const HomePage = () => {
 
     finalRecipe?.forEach((obj) => {
       sessionStorageCuisines.push(obj.value);
-    //  dispatch(fetchRecipe(obj.value));
+      dispatch(fetchRecipe(obj.value));
     });
     sessionStorage.setItem(
       "sessionStorageRecipes",
@@ -87,6 +85,7 @@ const HomePage = () => {
 
     if (finalRecipe.length === 0) {
       dispatch(setIsRecipeSelected(false));
+      dispatch(fetchRecipe());
     } else {
       dispatch(setIsRecipeSelected(true));
     }
