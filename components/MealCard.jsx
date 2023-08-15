@@ -15,7 +15,7 @@ const MealCard = ({ item }) => {
             <h1 className="mt-5 text-xl font-semibold">{item?.title}</h1>
           </div>
           <div>
-            <button className="mt-5 text-mainButtonText text-md font-semibold bg-mainButton py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-500 transform-gpu hover:scale-110 ">
+            <button className="mt-5 text-mainDarkText text-md font-semibold bg-mainButton py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-500 transform-gpu hover:scale-110 ">
               Receipt
             </button>
           </div>

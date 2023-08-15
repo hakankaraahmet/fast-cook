@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       </head>
       <body
         className={classNames(
-          "text-mainText min-h-screen flex flex-col ",
+          "text-mainText min-h-screen flex flex-col bg-[url(/background.avif)]",
           kanit.className
         )}
       >

@@ -127,10 +127,10 @@ const HomePage = () => {
           </span>
         </div>
         <div className="w-full lg:w-[70%] ">
-          <h1 className=" capitalize font-bold text-4xl text-mainButtonText  mb-2 lg:mb-4">
+          <h1 className=" capitalize font-bold text-4xl text-mainDarkText  mb-2 lg:mb-4">
             Welcome to Fast Cook
           </h1>
-          <p className=" text-mainButtonText text-lg lg:text-2xl">
+          <p className=" text-mainDarkText text-lg lg:text-2xl">
             Welcome to our world of flavors! Dive into a global culinary journey
             with our extensive collection of recipes spanning diverse cuisines.
             From fragrant Asian spices to savory Mediterranean herbs, unleash
@@ -144,7 +144,7 @@ const HomePage = () => {
         <div className="flex justify-center lg:justify-start">
           <CommonButton onClick={handleCuisines} title={"choose cuisine"} />
         </div>
-        <h2 className="capitalize font-bold text-2xl lg:text-4xl text-mainButtonText text-center my-8 lg:my-16">
+        <h2 className="capitalize font-bold text-2xl lg:text-4xl text-mainDarkText text-center my-8 lg:my-16">
           Our choices for you
         </h2>
         <Search />

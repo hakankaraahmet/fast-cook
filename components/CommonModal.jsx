@@ -10,7 +10,7 @@ const CommonModal = ({ showModal, setShowModal, title, buttonName,onClick, child
   }, [modalRef]);
 
   return (
-    <div className="text-mainButtonText" >
+    <div className="text-mainDarkText" >
       {showModal && (
         <div  className="fixed inset-0 z-50 max-w-[90%]  m-auto flex items-center justify-center overflow-x-hidden overflow-y-auto ">
           <div className="relative w-full max-w-3xl mx-auto">
@@ -29,7 +29,7 @@ const CommonModal = ({ showModal, setShowModal, title, buttonName,onClick, child
               </div>
               <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                 <button
-                  className="bg-mainButtonText text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="bg-mainDarkText text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                   onClick={onClick}
                 >

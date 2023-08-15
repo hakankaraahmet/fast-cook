@@ -66,18 +66,6 @@ const Navbar = () => {
                 }`}
                 aria-current="page"
               >
-                Meals
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/cuisines"
-                className={`block py-2 pl-3 pr-4 rounded  md:p-0 ${
-                  pathname === "/cuisines"
-                    ? " text-white"
-                    : "text-gray-500 hover:text-white"
-                }`}
-              >
                 Cuisines
               </Link>
             </li>
@@ -91,6 +79,18 @@ const Navbar = () => {
                 }`}
               >
                 Restaurants
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/about-me"
+                className={`block py-2 pl-3 pr-4 rounded  md:p-0 ${
+                  pathname === "/about-me"
+                    ? " text-white"
+                    : "text-gray-500 hover:text-white"
+                }`}
+              >
+                About Me
               </Link>
             </li>
           </ul>

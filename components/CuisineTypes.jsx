@@ -7,8 +7,8 @@ const CuisineTypes = ({selectRecipe , cuisineList}) => {
           onClick={() => selectRecipe(cuisineType)}
           className={`flex items-center justify-between cursor-pointer px-4 py-2 mx-8 my-4 text-sm  rounded-lg   ${
             cuisineType.isSelected
-              ? "bg-mainButtonText text-white"
-              : "bg-white text-mainButtonText"
+              ? "bg-mainDarkText text-white"
+              : "bg-white text-mainDarkText"
           }`}
         >
           {cuisineType.value}
