@@ -1,6 +1,7 @@
 "use client";
 import {
   fetchRecipe,
+  resetRecipeState,
   setIsRecipeSelected,
 } from "../redux/features/recipeSlice";
 import React, { useEffect, useState } from "react";
@@ -15,8 +16,9 @@ import Image from "next/image";
 const HomePage = () => {
   const [cuisineList, setCuisineList] = useState(cuisines);
   const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
   const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
+  const [recipeCount, setRecipeCount] = useState(30);
+  const dispatch = useDispatch();
 
   // DEFAULT FETCH ALL MEALS
 
@@ -27,7 +29,9 @@ const HomePage = () => {
 
     if (storedFilters?.length > 0 && storedFilters) {
       dispatch(setIsRecipeSelected(true));
-      storedFilters?.map((item) => dispatch(fetchRecipe(item)));
+      storedFilters?.map((item) =>
+        dispatch(fetchRecipe({ cuisineValue: item, number: recipeCount }))
+      );
       const filteredArray = cuisineList.filter((item) =>
         storedFilters.includes(item.value)
       );
@@ -36,10 +40,10 @@ const HomePage = () => {
       );
     } else {
       dispatch(setIsRecipeSelected(false));
-      dispatch(fetchRecipe());
+      dispatch(fetchRecipe({ number: recipeCount }));
     }
 
-    console.log("isRecipeSelected :>> ", isRecipeSelected);
+    console.log("storedFilters :>> ", storedFilters);
   }, []);
 
   const handleCuisines = () => {
@@ -76,7 +80,7 @@ const HomePage = () => {
 
     finalRecipe?.forEach((obj) => {
       sessionStorageCuisines.push(obj.value);
-      dispatch(fetchRecipe(obj.value));
+      dispatch(fetchRecipe({ cuisineValue: obj.value, number: recipeCount }));
     });
     sessionStorage.setItem(
       "sessionStorageRecipes",
@@ -85,15 +89,29 @@ const HomePage = () => {
 
     if (finalRecipe.length === 0) {
       dispatch(setIsRecipeSelected(false));
-      dispatch(fetchRecipe());
+      dispatch(fetchRecipe({ number: recipeCount }));
     } else {
       dispatch(setIsRecipeSelected(true));
     }
   };
 
-  //
-
-  const showMoreClick = () => {};
+  const showMoreClick = () => {
+    setRecipeCount((prevRecipeCount) => {
+    let sessionStorageCuisines = [];
+    recipe.map((item) => {
+      if (item?.data?.totalResults > 30) {
+        sessionStorageCuisines.push(item.cuisineValue);
+        dispatch(resetRecipeState());
+        dispatch(
+          fetchRecipe({ cuisineValue: item.cuisineValue, number: prevRecipeCount + 30 })
+        );
+      }
+      console.log(sessionStorageCuisines);
+    });  
+        return prevRecipeCount + 30
+  })};
+  console.log("recipe :>> ", recipe);
+  console.log("recipeCount :>> ", recipeCount);
 
   return (
     <div className="mx-8">
@@ -131,16 +149,12 @@ const HomePage = () => {
         </h2>
         <Search />
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16  mb-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16  my-8">
         {isRecipeSelected
           ? recipe?.flatMap((item) =>
-              item.data?.results?.map((result) => (
-                <MealCard item={result} key={result.id} />
-              ))
+              item.data?.results?.map((result) => <MealCard item={result} />)
             )
-          : recipe[0]?.results?.map((item) => (
-              <MealCard item={item} key={item.id} />
-            ))}
+          : recipe[0]?.results?.map((item) => <MealCard item={item} />)}
       </div>
       <div className=" my-2 lg:my-4  flex justify-center">
         <CommonButton onClick={showMoreClick} title={"show more"} />

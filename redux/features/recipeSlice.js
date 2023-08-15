@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const apiKey = process.env.NEXT_PUBLIC_REACT_APP_API_KEY;
+const apiKey = process.env.NEXT_PUBLIC_REACT_APP_API_KEY_3;
 
 const initialState = {
   recipe: [],
@@ -12,11 +12,11 @@ const initialState = {
 
 export const fetchRecipe = createAsyncThunk(
   "recipe/fetchRecipe",
-  async (cuisineValue = null) => {
+  async ({cuisineValue = null, number}) => {
     try {
       const params = {
         apiKey: apiKey,
-        number: 10,
+        number: number,
         ...(cuisineValue ? { cuisine: cuisineValue } : {}),
       };
 
@@ -45,6 +45,9 @@ const recipeSlice = createSlice({
       }
       state.isRecipeSelected = action.payload;
     },
+    resetRecipeState: (state) => {
+      state.recipe = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -62,5 +65,5 @@ const recipeSlice = createSlice({
   },
 });
 
-export const { setIsRecipeSelected } = recipeSlice.actions;
+export const { setIsRecipeSelected , resetRecipeState} = recipeSlice.actions;
 export default recipeSlice.reducer;

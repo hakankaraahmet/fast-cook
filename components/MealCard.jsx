@@ -2,7 +2,7 @@ import React from "react";
 
 const MealCard = ({ item }) => {
   return (
-<div className="w-full h-full  ">
+<div className="w-full h-full  " key={item.id}>
 
       <div className="h-full flex flex-col justify-between  p-9 bg-gradient-mainTheme  rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300">
         <img
