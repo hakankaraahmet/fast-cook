@@ -1,6 +1,4 @@
-import React from "react";
-
-const Search = () => {
+const Search = ({ onClick}) => {
   return (
     <div className="relative flex h-fit ml-auto  w-full lg:w-80 ">
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -22,6 +20,7 @@ const Search = () => {
         <span className="sr-only">Search icon</span>
       </div>
       <input
+        onChange={(e) => onClick(e)}
         type="text"
         id="search-navbar"
         className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-900 focus:border-gray-900 dark:bg-white dark:border-gray-900 dark:placeholder-gray-900 dark:text-mainDarkText dark:focus:ring-gray-900 dark:focus:border-gray-900"

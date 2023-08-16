@@ -14,11 +14,14 @@ import CommonButton from "../components/CommonButton";
 import Search from "../components/Search";
 import Image from "next/image";
 const HomePage = () => {
+  const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
   const [cuisineList, setCuisineList] = useState(cuisines);
   const [showModal, setShowModal] = useState(false);
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
-  const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
+  const [filteredRecipes, setFilteredRecipes] = useState();
   const dispatch = useDispatch();
+  let filterValue = ''
+ 
 
   // DEFAULT FETCH ALL MEALS
 
@@ -91,6 +94,7 @@ const HomePage = () => {
       dispatch(setIsRecipeSelected(false));
       dispatch(fetchRecipe({ number: 30 }));
     } else {
+      setFilteredRecipes(null);
       setIsLoadMoreClicked(false);
       dispatch(setIsRecipeSelected(true));
     }
@@ -114,6 +118,36 @@ const HomePage = () => {
       dispatch(fetchRecipe({ number: 100 }));
     }
   };
+
+  const searchCuisine = (e) => {
+    filterValue = e?.target.value.toLowerCase()
+    if (filterValue === "") {
+      setFilteredRecipes(null);
+    } else {
+      if (!isRecipeSelected) {
+        setFilteredRecipes(
+          recipe[0]?.results.filter((item) =>
+            item.title.toLowerCase().includes(filterValue)
+          )
+        );
+      } else {
+        setFilteredRecipes(
+          recipe?.flatMap((item) =>
+            item.data?.results?.filter((item) =>
+              item.title.toLowerCase().includes(filterValue)
+            )
+          )
+        );
+      }
+    }
+  };
+
+            //CONTINUE HERE !!!!!  eger modal acilip bir sey seciliyorsa veya secilmiyorsa her halukarda inputu temizle
+            // filtreleme islemi yapildiysa show more butonu cikmasin
+
+  console.log("recipe :>> ", recipe);
+  console.log("filteredRecipes :>> ", filteredRecipes);
+  console.log('filterValue :>> ', filterValue);
 
   return (
     <div className="mx-8">
@@ -149,16 +183,18 @@ const HomePage = () => {
         <h2 className="capitalize font-bold text-2xl lg:text-4xl text-mainDarkText text-center my-8 lg:my-16">
           Our choices for you
         </h2>
-        <Search />
+        <Search onClick={searchCuisine} />
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16  my-8">
         {isRecipeSelected
-          ? recipe?.flatMap((item) =>
+          ? filteredRecipes?.map((item) => <MealCard item={item} />) ??
+            recipe?.flatMap((item) =>
               item.data?.results?.map((result) => <MealCard item={result} />)
             )
-          : recipe[0]?.results?.map((item) => <MealCard item={item} />)}
+          : filteredRecipes?.map((item) => <MealCard item={item} />) ??
+            recipe[0]?.results?.map((item) => <MealCard item={item} />)}
       </div>
-      {!isLoadMoreClicked && (
+      {(!isLoadMoreClicked && !filterValue ) &&(
         <div className=" my-2 lg:my-4  flex justify-center">
           <CommonButton onClick={showMoreClick} title={"show more"} />
         </div>
