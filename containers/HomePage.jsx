@@ -16,8 +16,8 @@ import Image from "next/image";
 const HomePage = () => {
   const [cuisineList, setCuisineList] = useState(cuisines);
   const [showModal, setShowModal] = useState(false);
+  const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
   const { recipe, isRecipeSelected } = useSelector((state) => state.recipe);
-  const [recipeCount, setRecipeCount] = useState(30);
   const dispatch = useDispatch();
 
   // DEFAULT FETCH ALL MEALS
@@ -30,7 +30,7 @@ const HomePage = () => {
     if (storedFilters?.length > 0 && storedFilters) {
       dispatch(setIsRecipeSelected(true));
       storedFilters?.map((item) =>
-        dispatch(fetchRecipe({ cuisineValue: item, number: recipeCount }))
+        dispatch(fetchRecipe({ cuisineValue: item, number: 30 }))
       );
       const filteredArray = cuisineList.filter((item) =>
         storedFilters.includes(item.value)
@@ -40,7 +40,7 @@ const HomePage = () => {
       );
     } else {
       dispatch(setIsRecipeSelected(false));
-      dispatch(fetchRecipe({ number: recipeCount }));
+      dispatch(fetchRecipe({ number: 30 }));
     }
 
     console.log("storedFilters :>> ", storedFilters);
@@ -80,7 +80,7 @@ const HomePage = () => {
 
     finalRecipe?.forEach((obj) => {
       sessionStorageCuisines.push(obj.value);
-      dispatch(fetchRecipe({ cuisineValue: obj.value, number: recipeCount }));
+      dispatch(fetchRecipe({ cuisineValue: obj.value, number: 30 }));
     });
     sessionStorage.setItem(
       "sessionStorageRecipes",
@@ -89,29 +89,31 @@ const HomePage = () => {
 
     if (finalRecipe.length === 0) {
       dispatch(setIsRecipeSelected(false));
-      dispatch(fetchRecipe({ number: recipeCount }));
+      dispatch(fetchRecipe({ number: 30 }));
     } else {
+      setIsLoadMoreClicked(false);
       dispatch(setIsRecipeSelected(true));
     }
   };
 
   const showMoreClick = () => {
-    setRecipeCount((prevRecipeCount) => {
-    let sessionStorageCuisines = [];
-    recipe.map((item) => {
-      if (item?.data?.totalResults > 30) {
-        sessionStorageCuisines.push(item.cuisineValue);
-        dispatch(resetRecipeState());
+    dispatch(resetRecipeState());
+    setIsLoadMoreClicked(true);
+    if (isRecipeSelected) {
+      [...recipe].sort((a, b) => b.data.totalResults - a.data.totalResults);
+      recipe.forEach((item) => {
+        console.log(item?.data?.totalResults);
         dispatch(
-          fetchRecipe({ cuisineValue: item.cuisineValue, number: prevRecipeCount + 30 })
+          fetchRecipe({
+            cuisineValue: item.cuisineValue,
+            number: item?.data?.totalResults,
+          })
         );
-      }
-      console.log(sessionStorageCuisines);
-    });  
-        return prevRecipeCount + 30
-  })};
-  console.log("recipe :>> ", recipe);
-  console.log("recipeCount :>> ", recipeCount);
+      });
+    } else {
+      dispatch(fetchRecipe({ number: 100 }));
+    }
+  };
 
   return (
     <div className="mx-8">
@@ -156,9 +158,11 @@ const HomePage = () => {
             )
           : recipe[0]?.results?.map((item) => <MealCard item={item} />)}
       </div>
-      <div className=" my-2 lg:my-4  flex justify-center">
-        <CommonButton onClick={showMoreClick} title={"show more"} />
-      </div>
+      {!isLoadMoreClicked && (
+        <div className=" my-2 lg:my-4  flex justify-center">
+          <CommonButton onClick={showMoreClick} title={"show more"} />
+        </div>
+      )}
       <CommonModal
         showModal={showModal}
         setShowModal={setShowModal}
