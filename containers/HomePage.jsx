@@ -18,10 +18,9 @@ const HomePage = () => {
   const [cuisineList, setCuisineList] = useState(cuisines);
   const [showModal, setShowModal] = useState(false);
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
+  const [filterValue, setFilterValue] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState();
   const dispatch = useDispatch();
-  let filterValue = ''
- 
 
   // DEFAULT FETCH ALL MEALS
 
@@ -45,8 +44,6 @@ const HomePage = () => {
       dispatch(setIsRecipeSelected(false));
       dispatch(fetchRecipe({ number: 30 }));
     }
-
-    console.log("storedFilters :>> ", storedFilters);
   }, []);
 
   const handleCuisines = () => {
@@ -73,6 +70,7 @@ const HomePage = () => {
 
   const showRecipeResult = () => {
     setShowModal(false);
+    setFilterValue("");
     let sessionStorageCuisines = [];
 
     const finalRecipe = cuisineList.filter(
@@ -100,6 +98,8 @@ const HomePage = () => {
     }
   };
 
+  //SHOW MORE
+
   const showMoreClick = () => {
     dispatch(resetRecipeState());
     setIsLoadMoreClicked(true);
@@ -119,35 +119,35 @@ const HomePage = () => {
     }
   };
 
-  const searchCuisine = (e) => {
-    filterValue = e?.target.value.toLowerCase()
-    if (filterValue === "") {
-      setFilteredRecipes(null);
-    } else {
-      if (!isRecipeSelected) {
-        setFilteredRecipes(
-          recipe[0]?.results.filter((item) =>
-            item.title.toLowerCase().includes(filterValue)
-          )
-        );
+  //FILTERING
+
+  useEffect(() => {
+    const filterRecipes = () => {
+      if (filterValue === "") {
+        setFilteredRecipes(null);
       } else {
-        setFilteredRecipes(
-          recipe?.flatMap((item) =>
+        if (!isRecipeSelected) {
+          const filtered = recipe[0]?.results.filter((item) =>
+            item.title.toLowerCase().includes(filterValue)
+          );
+          setFilteredRecipes(filtered);
+        } else {
+          const filtered = recipe.flatMap((item) =>
             item.data?.results?.filter((item) =>
               item.title.toLowerCase().includes(filterValue)
             )
-          )
-        );
+          );
+          setFilteredRecipes(filtered);
+        }
       }
-    }
+    };
+
+    filterRecipes();
+  }, [filterValue, isRecipeSelected]);
+
+  const searchCuisine = (e) => {
+    setFilterValue(e?.target.value.toLowerCase());
   };
-
-            //CONTINUE HERE !!!!!  eger modal acilip bir sey seciliyorsa veya secilmiyorsa her halukarda inputu temizle
-            // filtreleme islemi yapildiysa show more butonu cikmasin
-
-  console.log("recipe :>> ", recipe);
-  console.log("filteredRecipes :>> ", filteredRecipes);
-  console.log('filterValue :>> ', filterValue);
 
   return (
     <div className="mx-8">
@@ -183,9 +183,9 @@ const HomePage = () => {
         <h2 className="capitalize font-bold text-2xl lg:text-4xl text-mainDarkText text-center my-8 lg:my-16">
           Our choices for you
         </h2>
-        <Search onClick={searchCuisine} />
+        <Search onClick={searchCuisine} inputValue={filterValue} />
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-16  my-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-16  my-8">
         {isRecipeSelected
           ? filteredRecipes?.map((item) => <MealCard item={item} />) ??
             recipe?.flatMap((item) =>
@@ -194,7 +194,7 @@ const HomePage = () => {
           : filteredRecipes?.map((item) => <MealCard item={item} />) ??
             recipe[0]?.results?.map((item) => <MealCard item={item} />)}
       </div>
-      {(!isLoadMoreClicked && !filterValue ) &&(
+      {!isLoadMoreClicked && !filterValue && (
         <div className=" my-2 lg:my-4  flex justify-center">
           <CommonButton onClick={showMoreClick} title={"show more"} />
         </div>

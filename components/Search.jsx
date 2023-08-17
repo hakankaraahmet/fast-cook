@@ -1,4 +1,4 @@
-const Search = ({ onClick}) => {
+const Search = ({ onClick, inputValue }) => {
   return (
     <div className="relative flex h-fit ml-auto  w-full lg:w-80 ">
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -20,6 +20,7 @@ const Search = ({ onClick}) => {
         <span className="sr-only">Search icon</span>
       </div>
       <input
+        value={inputValue}
         onChange={(e) => onClick(e)}
         type="text"
         id="search-navbar"
