@@ -25,18 +25,39 @@ const HomePage = () => {
   // DEFAULT FETCH ALL MEALS
 
   useEffect(() => {
+    // getting cuisine list info and selected cuisines from session storage
+    const storedCuisineList = JSON.parse(
+      global?.window?.sessionStorage?.getItem("sessionStorageCuisineList")
+    );
+
+    if (storedCuisineList) {
+      setCuisineList(storedCuisineList);
+    }
+
     const storedFilters = JSON.parse(
       global?.window?.sessionStorage?.getItem("sessionStorageRecipes")
     );
+    // ------------------------------
 
     if (storedFilters?.length > 0 && storedFilters) {
       dispatch(setIsRecipeSelected(true));
-      storedFilters?.map((item) =>
-        dispatch(fetchRecipe({ cuisineValue: item, number: 30 }))
-      );
+
       const filteredArray = cuisineList.filter((item) =>
         storedFilters.includes(item.value)
       );
+
+      // Check if a cuisine is already present in the recipe data
+      const cuisinesToFetch = filteredArray.filter(
+        (item) =>
+          !recipe.some((recipeItem) => recipeItem.cuisineValue === item.value)
+      );
+
+      // Fetch only the cuisines that are not already in the recipe data
+      cuisinesToFetch.forEach((item) =>
+        dispatch(fetchRecipe({ cuisineValue: item.value, number: 30 }))
+      );
+
+      // Update isSelected for the filteredArray
       filteredArray.map((item) =>
         item.isSelected ? (item.isSelected = false) : (item.isSelected = true)
       );
@@ -64,6 +85,11 @@ const HomePage = () => {
       return item;
     });
     setCuisineList(updatedCuisines);
+
+    sessionStorage.setItem(
+      "sessionStorageCuisineList",
+      JSON.stringify(updatedCuisines)
+    );
   };
 
   // CLOSING MODAL AND FETCHING SELECTED CUISINES
@@ -150,7 +176,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="mx-8">
+    <div className="mx-4 lg:mx-8 ">
       <div className="py-4 flex flex-col lg:flex-row justify-between  my-8">
         <div className="w-full lg:w-[20%] flex flex-col items-center  my-8 lg:my-0">
           <span className="relative w-32 h-32 ">

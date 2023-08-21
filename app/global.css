@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 @layer utilities {
     .bg-gradient-mainTheme {
       background-image: linear-gradient(45deg, #596680, #111827);
@@ -13,6 +14,13 @@
       color: transparent;
       background-image: linear-gradient(45deg, #596680, #111827);
     }
+  }
+
+
+  /* Background Colors */
+
+  .gradient-background {
+    background: linear-gradient(to left, #E9EDF4, #C9D7EC, #B9CEEF);
   }
 
   

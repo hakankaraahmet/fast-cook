@@ -20,18 +20,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-    <Providers>
-      <body
-        className={classNames(
-          "text-mainText min-h-screen flex flex-col bg-[url(/background.avif)] bg-cover bg-no-repeat",
-          kanit.className
-        )}
-      >
+      <Providers>
+        <body
+          className={classNames(
+            "text-mainText min-h-screen flex flex-col  gradient-background",
+            kanit.className
+          )}
+        >
           <Navbar />
           {children}
           <Footer />
-          </body>
-          </Providers>
+        </body>
+      </Providers>
     </html>
   );
 }

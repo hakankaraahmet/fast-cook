@@ -1,11 +1,12 @@
 'use client'
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { outSideClick } from "../shared/outSideClick";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isSideBar, setIsSideBar] = useState(false);
   const sideBarRef = useRef(null);
 
@@ -14,7 +15,7 @@ const Navbar = () => {
   }, [sideBarRef]);
 
   return (
-    <nav className="bg-white dark:bg-gray-900 px-8">
+    <nav className="bg-white dark:bg-gray-900 px-8 ">
       <div className=" flex flex-wrap items-center justify-between mx-auto p-4 ">
         <Link href="/" className="flex items-center">
           <img src="/logo.svg" className="h-8 mr-3 mb-2" alt="Fast Cook" />
@@ -61,7 +62,7 @@ const Navbar = () => {
               <Link
                 href="/"
                 className={`block py-2 pl-3 pr-4 rounded  md:p-0 ${
-                  pathname === "/"
+                  pathname === "/" || router.asPath === '/[recipeId]'
                     ? " text-white"
                     : "text-gray-500 hover:text-white"
                 }`}
