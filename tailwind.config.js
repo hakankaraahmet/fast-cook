@@ -16,7 +16,7 @@ module.exports = {
       colors: {
         mainText: '#fff',
         mainButton: '#f9fafb',
-        mainDarkText : '#111827'
+        mainDarkText : '#503318'
       },
     },
   },

@@ -2,27 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer utilities {
-    .bg-gradient-mainTheme {
-      background-image: linear-gradient(45deg, #596680, #111827);
-    }
-    .text-gradient-mainTheme {
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      background-image: linear-gradient(45deg, #596680, #111827);
-    }
+  .bg-gradient-mainTheme {
+    position: relative;
+    background-image: linear-gradient(
+      45deg,
+      rgba(72, 43, 16, 0.3),
+      rgba(10, 5, 0, 0.3)
+    );
   }
+}
 
+/* Background Colors */
 
-  /* Background Colors */
+.gradient-background {
+  position: relative;
+  background: linear-gradient(to left, #d2b48c, #8b5a2b);
+}
 
-  .gradient-background {
-    background: linear-gradient(to left, #E9EDF4, #C9D7EC, #B9CEEF);
-  }
+.gradient-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/light-bg.jpeg");
+  opacity: 0.2; /* Adjust the opacity to your preference */
 
   
+}
 
-  
+
+

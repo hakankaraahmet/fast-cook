@@ -178,18 +178,16 @@ const HomePage = () => {
   return (
     <div className="mx-4 lg:mx-8 ">
       <div className="py-4 flex flex-col lg:flex-row justify-between  my-8">
-        <div className="w-full lg:w-[20%] flex flex-col items-center  my-8 lg:my-0">
-          <span className="relative w-32 h-32 ">
-            <Image
-              src="/bigLogo.svg"
-              className=" mr-3 mb-2"
+        <div className="w-full lg:w-[25%] flex flex-col items-center   lg:my-0">
+            <img
+              src="/logo.png"
+              className=" mr-3 mb-2 "
               fill
               alt="Fast Cook"
             />
-          </span>
         </div>
         <div className="w-full lg:w-[70%] ">
-          <h1 className=" capitalize font-bold text-4xl text-mainDarkText  mb-2 lg:mb-4">
+          <h1 className=" capitalize font-bold text-5xl text-mainDarkText  mb-2 lg:mb-4">
             Welcome to Fast Cook
           </h1>
           <p className=" text-mainDarkText text-lg lg:text-2xl">
