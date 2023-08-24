@@ -1,8 +1,17 @@
-const LoadingSkeleton = () => {
-  const isDarkTheme = global?.window?.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+import BarLoader from "react-spinners/BarLoader";
 
+const LoadingSkeleton = () => {
   return (
-   <div>loading...</div>
+    <div className="w-screen h-screen flex justify-center items-center pb-40">
+      <BarLoader
+        color={"#fff"}
+        loading={true}
+        height={4}
+        width={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </div>
   );
 };
 

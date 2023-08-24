@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRecipeDetail } from "../redux/features/recipeDetailSlice";
 import Image from "next/image";
+import LoadingSkeleton from '../components/LoadingSkeleton'
 
 const RecipeDetailContainer = ({ params }) => {
   const { recipeDetail } = useSelector((state) => state.recipeDetail);
@@ -15,7 +16,7 @@ const RecipeDetailContainer = ({ params }) => {
   console.log('recipeDetail :>> ', recipeDetail);
 
   if (!recipeDetail) {
-    return <p>Loading...</p>; // or any loading indicator
+    return <LoadingSkeleton/>; // or any loading indicator
   }
   return (
     <div className="text-mainDarkText flex flex-col lg:flex-row justify-between m-4 lg:mx-8  w-full min-h-full ">
