@@ -7,7 +7,7 @@ const Home = () => {
   console.log("is client?");
 
   return (
-    <main>
+    <main className="3xl:w-1/2 mx-auto">
       <HomePage />
     </main>
   );

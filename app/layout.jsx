@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       <Providers>
         <body
           className={classNames(
-            "text-mainText min-h-screen flex flex-col  gradient-background",
+            "text-mainText min-h-screen flex flex-col  gradient-background ",
             kanit.className
           )}
         >

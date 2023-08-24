@@ -18,6 +18,9 @@ module.exports = {
         mainButton: '#f9fafb',
         mainDarkText : '#503318'
       },
+      screens:{
+        '3xl': '3000px'
+      }
     },
   },
   plugins: [],

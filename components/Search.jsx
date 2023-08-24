@@ -24,8 +24,8 @@ const Search = ({ onClick, inputValue }) => {
         onChange={(e) => onClick(e)}
         type="text"
         id="search-navbar"
-        className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-900 focus:border-gray-900 dark:bg-white dark:border-gray-900 dark:placeholder-gray-900 dark:text-mainDarkText dark:focus:ring-gray-900 dark:focus:border-gray-900"
-        placeholder="Search..."
+        className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-900 focus:border-gray-900 dark:bg-white dark:border-gray-900 dark:plac"
+        placeholder="Search Cuisine"
       />
     </div>
   );

@@ -177,7 +177,7 @@ const HomePage = () => {
 
   return (
     <div className="mx-4 lg:mx-8 ">
-      <div className="py-4 flex flex-col lg:flex-row justify-between  my-8">
+      <div className="py-4 flex flex-col lg:flex-row justify-between  my-8  ">
         <div className="w-full lg:w-[25%] flex flex-col items-center   lg:my-0">
             <img
               src="/logo.png"

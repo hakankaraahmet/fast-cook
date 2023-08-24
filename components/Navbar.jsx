@@ -1,12 +1,11 @@
-'use client'
+"use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { outSideClick } from "../shared/outSideClick";
 
 const Navbar = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const [isSideBar, setIsSideBar] = useState(false);
   const sideBarRef = useRef(null);
 
@@ -16,7 +15,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-mainDarkText  bg-opacity-40 px-8 shadow-xl z-50">
-      <div className=" flex flex-wrap items-center justify-between mx-auto p-4 ">
+      <div className=" flex flex-wrap items-center justify-between mx-auto p-4 3xl:w-1/2  ">
         <Link href="/" className="flex items-center">
           <img src="/logo.png" className="h-10 w-10 mr-3 " alt="Fast Cook" />
           <span className="self-center text-2xl font-normal whitespace-nowrap dark:text-white">
@@ -62,9 +61,9 @@ const Navbar = () => {
               <Link
                 href="/"
                 className={`block py-2 pl-3 pr-4 rounded  md:p-0 ${
-                  pathname === "/" || router.asPath === '/[recipeId]'
-                  ? " text-white"
-                  : "opacity-40 hover:opacity-100"
+                  pathname === "/" 
+                    ? " text-white"
+                    : "opacity-40 hover:opacity-100"
                 }`}
                 aria-current="page"
               >
@@ -73,23 +72,11 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/restaurants"
-                className={`block py-2 pl-3 pr-4 rounded  md:p-0 ${
-                  pathname === "/restaurants"
-                    ? " text-white"
-                    : "opacity-40 hover:opacity-100"
-                }`}
-              >
-                Restaurants
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/about-me"
                 className={`block py-2 pl-3 pr-4 rounded  md:p-0 ${
                   pathname === "/about-me"
-                  ? " text-white"
-                  : "opacity-40 hover:opacity-100"
+                    ? " text-white"
+                    : "opacity-40 hover:opacity-100"
                 }`}
               >
                 About Me
