@@ -4,7 +4,7 @@ import {
   resetRecipeState,
   setIsRecipeSelected,
 } from "../redux/features/recipeSlice";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MealCard from "../components/MealCard";
 import CommonModal from "../components/CommonModal";
@@ -126,13 +126,17 @@ const HomePage = () => {
 
   //SHOW MORE
 
-  const showMoreClick = () => {
+  const showMoreClick = useCallback(() => {
+    console.log('showMoreClick function called');
     dispatch(resetRecipeState());
     setIsLoadMoreClicked(true);
+
     if (isRecipeSelected) {
-      [...recipe].sort((a, b) => b.data.totalResults - a.data.totalResults);
-      recipe.forEach((item) => {
-        console.log(item?.data?.totalResults);
+      const sortedRecipe = [...recipe].sort((a, b) => b.data.totalResults - a.data.totalResults);
+      console.log('Sorted Recipe:', sortedRecipe);
+
+      sortedRecipe.forEach((item) => {
+        console.log('Total Results:', item?.data?.totalResults);
         dispatch(
           fetchRecipe({
             cuisineValue: item.cuisineValue,
@@ -141,9 +145,12 @@ const HomePage = () => {
         );
       });
     } else {
+      console.log('Fetching recipe with number 100');
       dispatch(fetchRecipe({ number: 100 }));
     }
-  };
+
+    console.log('End of showMoreClick function');
+  }, [dispatch, setIsLoadMoreClicked, isRecipeSelected, recipe]);
 
   //FILTERING
 
