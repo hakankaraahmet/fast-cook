@@ -1,6 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fast Cook Project
 
-## Getting Started
+Welcome to the Fast Cook project! 
+
+# https://fast-cook.vercel.app/
 
 First, run the development server:
 
