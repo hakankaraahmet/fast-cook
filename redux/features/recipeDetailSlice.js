@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const apiKey = process.env.NEXT_PUBLIC_REACT_APP_API_KEY_3;
+const apiKey = process.env.NEXT_PUBLIC_REACT_APP_API_KEY;
 
 const initialState = {
     recipeDetail: null,
